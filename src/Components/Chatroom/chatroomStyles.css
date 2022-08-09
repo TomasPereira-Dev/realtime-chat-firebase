@@ -1,0 +1,81 @@
+.chatroom-wrapper{
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: center;
+    height: 100vh;
+    z-index: 997;
+}
+
+.chatroom-container{
+    display: flex;
+    flex-direction: column;
+    align-self: center;
+    justify-content: center;
+}
+
+.message-list{
+    display: flex;
+    flex-direction: column;
+    overflow-y: scroll;
+}
+
+.chat-container{
+  display: flex;
+  position: relative;
+  flex-direction: column;
+  justify-content: flex-end;
+  border-radius: 10px;
+  margin: 5px;
+  width: 30vw;
+  height: 70vh;
+  background: rgba(0, 0, 0, 0.7);
+  z-index: 996;
+  box-shadow: -10px -9px #d31313;
+}
+
+.input-button-container{
+  display: flex;
+}
+
+.message-form{
+  display: flex;
+}
+
+.message-input{
+  width: 29vw;
+  padding:5px;
+  margin: 5px;
+}
+
+.send-btn{
+  position: relative;
+  margin: 5px 0 0 -50px;
+}
+
+.my-msg{
+ align-self: flex-start;
+ word-wrap: break-word;
+ border: 1px solid black;
+ border-radius: 10px;
+ background-color: white;
+ margin: 5px;
+ padding: 5px;
+}
+
+.their-msg{
+  align-self: flex-end;
+  word-wrap: break-word;
+  border: 1px solid black;
+  border-radius: 10px;
+  background-color: white;
+  margin: 5px;
+  padding: 5px;
+}
+
+.sign-out-and-options-btn-container{
+  display: flex;
+  justify-content: flex-end;
+  margin: 0 15px 5px 0;
+}
+  
