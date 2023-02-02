@@ -56,7 +56,7 @@ function ChatRoom({handleClose, handleLoginOpen, chatroomIsOpen, username}){
             const snapshotUid = snapshot.val().user;
 
             const newMessage =  {
-                                message:  `${snapshotUserName}: ` + `${snapshotMessage}`,
+                                message:  `${snapshotUserName}: `  `${snapshotMessage}`,
                                 uidOfMessage: snapshotUid,
                                 };
 
