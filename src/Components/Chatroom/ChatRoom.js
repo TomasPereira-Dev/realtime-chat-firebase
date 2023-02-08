@@ -1,4 +1,4 @@
-import React, {useEffect, useLayoutEffect, useRef} from "react";
+import React, {useCallback, useEffect, useLayoutEffect, useRef} from "react";
 import {initializeApp} from "firebase/app";
 import {getAuth, signOut} from "firebase/auth";
 import {getDatabase, push, ref, onChildAdded} from 'firebase/database';
@@ -14,33 +14,33 @@ const firebaseConfig = {
     measurementId: "G-NFJ477BRYQ",
     databaseURL: "https://chat-app-4fca2-default-rtdb.firebaseio.com/"
   };
+initializeApp(firebaseConfig);
 
-const app = initializeApp(firebaseConfig);
 const database = getDatabase();
 const auth = getAuth();
 
 function ChatRoom({handleClose, handleLoginOpen, chatroomIsOpen, username}){
     const [message, setMessage] = React.useState("");
-    const [fetchedMsgs, setFetchedMsgs] = React.useState([]);
-    const messagesRef = ref(database, "messages");
-    let fetchedStuff = []; // save fetched messages to display them later using the map method
+    let fetchedStuffRef = useRef([]); // save fetched messages to display them later using the map method
     const inputRef = useRef("");
     const chatRef = useRef(null);
     const sendButtonRef = useRef(null);
-
-    function handleClickSend(){
-        const newMessage = message;
+    
+    const handleClickSend = useCallback(() => {
         //send messages to database
         if(inputRef.current.value){
             sendButtonRef.current.disable = "false";
             push(ref(database, "messages"),{
                 user: auth.currentUser.uid,
                 userName: username,
-                message: newMessage,
+                message: message,
             });
             inputRef.current.value = "";
         };
-    };
+    }, [message, username])
+    
+
+
 
     function handleEnterSend(event){
         if(event.key === "Enter" && inputRef.current.value){
@@ -48,20 +48,20 @@ function ChatRoom({handleClose, handleLoginOpen, chatroomIsOpen, username}){
         };
     };
 
-    useEffect(() => { //fetch messages from the database 
+    useEffect(() => { //fetch messages from the database
+        const messagesRef = ref(database, "messages"); 
         onChildAdded(messagesRef, (snapshot) => {
             //fetches messages
-            const snapshotMessage = snapshot.val().message;
-            const snapshotUserName = snapshot.val().userName;
-            const snapshotUid = snapshot.val().user;
+            let snapshotMessage = snapshot.val().message;
+            let snapshotUserName = snapshot.val().userName;
+            let snapshotUid = snapshot.val().user;
 
-            const newMessage =  {
-                                message:  `${snapshotUserName}: `  `${snapshotMessage}`,
+            let newMessage =  {
+                                message: snapshotUserName + ': ' + snapshotMessage,
                                 uidOfMessage: snapshotUid,
                                 };
 
-            fetchedStuff = [...fetchedStuff, newMessage];
-            setFetchedMsgs(fetchedStuff);
+            fetchedStuffRef.current = [...fetchedStuffRef.current, newMessage];
         });
     }, []);
 
@@ -75,11 +75,9 @@ function ChatRoom({handleClose, handleLoginOpen, chatroomIsOpen, username}){
         return null;
     };
 
-    function handleChangeMessage(event){
-        const newMessage = event.target.value;
-        setMessage(newMessage);
+    function handleChangeMessage(event){    
+        setMessage(event.target.value);
     };
-
 
     function handleLogOut(){
         signOut(auth).then(()=> {
@@ -108,7 +106,7 @@ function ChatRoom({handleClose, handleLoginOpen, chatroomIsOpen, username}){
 
                 <div className="chat-container">
                     <div className="message-list">
-                        {auth.currentUser !== null ? (fetchedMsgs.map((renderedMsg, index) => (
+                        {auth.currentUser !== null ? (fetchedStuffRef.current.map((renderedMsg, index) => (
                             renderedMsg.uidOfMessage !== auth.currentUser.uid ? (
                             <div className="msg their-msg" key={index}>
                                 <span>{ `${renderedMsg.message}`}</span>
