@@ -1,9 +1,12 @@
+import React from "react";
 import PortalLogin from "../PortalLogin";
-import React , { useRef, useState } from "react";
 import {getAuth, createUserWithEmailAndPassword, signInWithEmailAndPassword, onAuthStateChanged, GoogleAuthProvider, signInWithPopup} from "firebase/auth";
 import {initializeApp} from "firebase/app";
 import {getDatabase, push, ref, set} from 'firebase/database';
 import "./modalStyles.css";
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+import { faGoogle } from '@fortawesome/free-brands-svg-icons'
+import { useState } from "react";
 
 const firebaseConfig = {
     apiKey: "AIzaSyA994Q-JUU7EYwvHBw4pGVNXAbJcK1slHk",
@@ -21,8 +24,8 @@ const app = initializeApp(firebaseConfig);
 function Modal ({isOpen, handleClose, handleUsernameOpen, usernameIsOpen}){
 
     const provider = new GoogleAuthProvider();
-    const [email, setEmail] = React.useState("");
-    const [password, setPassword] = React.useState("");
+    const [email, setEmail] = useState("");
+    const [password, setPassword] = useState("");
   
     if(!isOpen){
         return null;
@@ -148,7 +151,7 @@ function Modal ({isOpen, handleClose, handleUsernameOpen, usernameIsOpen}){
                                             <input className="sign-up-password" type="password" placeholder="Password" onChange={handleChangePassword} onKeyDown={KeydownRegisterHandler}/>
                                         </div>
                                         <div className="sign-up-btn-container">
-                                            <button className="sign-up-btn" type="button" onClick={handleClickSignUp}>Sign up</button>
+                                            <button className="modal-btn sign-up-btn" type="button" onClick={handleClickSignUp}>Sign up</button>
                                         </div>
                                     </form>
                                 </div>
@@ -165,7 +168,7 @@ function Modal ({isOpen, handleClose, handleUsernameOpen, usernameIsOpen}){
                                             <input className="mail-password-container"  type="password" placeholder="Password" onChange={handleChangePassword} onKeyDown={KeydownLoginHandler}/>
                                         </div>
                                         <div>
-                                            <button className="log-in-btn"  type="button" onClick={handleClickLogin}>Log In</button>
+                                            <button className="modal-btn log-in-btn"  type="button" onClick={handleClickLogin}>Log In</button>
                                         </div>
                                     </form>
                                 </div>
@@ -173,7 +176,7 @@ function Modal ({isOpen, handleClose, handleUsernameOpen, usernameIsOpen}){
                         </div>
                         <div className="auth-container">
                             <h3>or</h3>
-                            <button className="auth-btn" onClick={handleClickGoogleSignUp}>Sign in with Google</button>
+                            <button className="modal-btn auth-btn" onClick={handleClickGoogleSignUp}>Sign in with Google <FontAwesomeIcon icon={faGoogle}/></button>
                         </div>
                     </div>
                 </div>

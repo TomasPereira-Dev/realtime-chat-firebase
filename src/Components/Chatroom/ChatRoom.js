@@ -3,6 +3,9 @@ import {initializeApp} from "firebase/app";
 import {getAuth, signOut} from "firebase/auth";
 import {getDatabase, push, ref, onChildAdded} from 'firebase/database';
 import "./chatroomStyles.css";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faPersonWalkingArrowRight } from "@fortawesome/free-solid-svg-icons";
+import { faCircleChevronRight } from "@fortawesome/free-solid-svg-icons";
 
 const firebaseConfig = {
     apiKey: "AIzaSyA994Q-JUU7EYwvHBw4pGVNXAbJcK1slHk",
@@ -39,9 +42,6 @@ function ChatRoom({handleClose, handleLoginOpen, chatroomIsOpen, username}){
         };
     }, [message, username])
     
-
-
-
     function handleEnterSend(event){
         if(event.key === "Enter" && inputRef.current.value){
             handleClickSend();
@@ -94,13 +94,9 @@ function ChatRoom({handleClose, handleLoginOpen, chatroomIsOpen, username}){
         <>
         <div className="chatroom-wrapper">
             <div className="chatroom-container">
-                <div className="sign-out-and-options-btn-container">
-                    <div className="options-btn-container">
-                        <button type="button">Options</button>
-                    </div>
-
+                <div className="sign-out-and-options-btn-container"> 
                     <div className="sign-out-btn-container">
-                        <button type="button" className="sign-out-btn" onClick={handleLogOut}>Sign out</button>
+                        <button type="button" className="sign-out-btn" onClick={handleLogOut}>Sign out <FontAwesomeIcon icon={faPersonWalkingArrowRight}/></button>
                     </div>
                 </div>
 
@@ -130,8 +126,8 @@ function ChatRoom({handleClose, handleLoginOpen, chatroomIsOpen, username}){
                                 <div className="message-input-container">
                                     <input className="message-input" placeholder="write a message" onKeyDown={handleEnterSend} onChange={handleChangeMessage} ref={inputRef}/>
                                 </div>
-                                <div className="send-btn">
-                                    <button type="button" onClick={handleClickSend} ref={sendButtonRef} disable="true">SEND</button>
+                                <div className="send-btn-container">
+                                    <button type="button" className="send-btn" onClick={handleClickSend} ref={sendButtonRef} disable="true"><FontAwesomeIcon icon={faCircleChevronRight} size="2xl" /></button>
                                 </div>
                             </div>
                         </div>

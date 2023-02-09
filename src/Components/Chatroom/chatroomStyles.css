@@ -31,7 +31,7 @@
   height: 70vh;
   background: rgba(0, 0, 0, 0.7);
   z-index: 996;
-  box-shadow: -10px -9px #d31313;
+  box-shadow: -10px -9px #e1341e;
 }
 
 .input-button-container{
@@ -44,13 +44,20 @@
 
 .message-input{
   width: 29vw;
-  padding:5px;
+  padding:6px;
   margin: 5px;
+  border: none;
+}
+
+.send-btn-container{
+  position: relative;
+  margin: 5px 0 0 -40px;
 }
 
 .send-btn{
-  position: relative;
-  margin: 5px 0 0 -50px;
+  border: none;
+  background: none;
+  color: #1ee196;
 }
 
 .my-msg{
@@ -58,7 +65,7 @@
  word-wrap: break-word;
  border: 1px solid black;
  border-radius: 10px;
- background-color: white;
+ background-color: #ffffff;
  margin: 5px;
  padding: 5px;
 }
@@ -77,5 +84,11 @@
   display: flex;
   justify-content: flex-end;
   margin: 0 15px 5px 0;
+}
+
+.sign-out-btn{
+  background-color: #6ae11e;
+  padding: 5px;
+  border: none;
 }
   

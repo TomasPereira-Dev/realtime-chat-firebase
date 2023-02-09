@@ -14,9 +14,7 @@ input{
 }
 
 body{
-  background-color: #e5e5f7;
-  background-image:  linear-gradient(135deg, #f74545 25%, transparent 25%), linear-gradient(225deg, #f74545 25%, transparent 25%), linear-gradient(45deg, #f74545 25%, transparent 25%), linear-gradient(315deg, #f74545 25%, #e5e5f7 25%);
-  background-position:  10px 0, 10px 0, 0 0, 0 0;
-  background-size: 20px 20px;
-  background-repeat: repeat;
+  background-color: #80cee1;
 }
+
+

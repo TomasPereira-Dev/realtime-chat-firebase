@@ -1,4 +1,4 @@
-import React, { useLayoutEffect, useState } from "react";
+import { useLayoutEffect, useState } from "react";
 import {createPortal} from "react-dom";
 
 const PortalUsername = ({children, wrapperId="portal-wrapper"}) => {
