@@ -23,7 +23,6 @@ const database = getDatabase();
 const auth = getAuth();
 
 function ChatRoom({handleClose, handleLoginOpen, chatroomIsOpen, username}){
-    const [message, setMessage] = React.useState("");
     let fetchedStuffRef = useRef([]); // save fetched messages to display them later using the map method
     const inputRef = useRef("");
     const chatRef = useRef(null);
@@ -36,11 +35,11 @@ function ChatRoom({handleClose, handleLoginOpen, chatroomIsOpen, username}){
             push(ref(database, "messages"),{
                 user: auth.currentUser.uid,
                 userName: username,
-                message: message,
+                message: inputRef.current.value,
             });
             inputRef.current.value = "";
         };
-    }, [message, username])
+    })
     
     function handleEnterSend(event){
         if(event.key === "Enter" && inputRef.current.value){
@@ -48,6 +47,7 @@ function ChatRoom({handleClose, handleLoginOpen, chatroomIsOpen, username}){
         };
     };
 
+ 
     useEffect(() => { //fetch messages from the database
         const messagesRef = ref(database, "messages"); 
         onChildAdded(messagesRef, (snapshot) => {
@@ -63,7 +63,9 @@ function ChatRoom({handleClose, handleLoginOpen, chatroomIsOpen, username}){
 
             fetchedStuffRef.current = [...fetchedStuffRef.current, newMessage];
         });
-    }, []);
+    }, [fetchedStuffRef.current]);
+
+    console.log(fetchedStuffRef.current)
 
     useLayoutEffect(() => {
         if(chatRef.current && chatRef.current !== null){
@@ -73,10 +75,6 @@ function ChatRoom({handleClose, handleLoginOpen, chatroomIsOpen, username}){
 
     if(!chatroomIsOpen){
         return null;
-    };
-
-    function handleChangeMessage(event){    
-        setMessage(event.target.value);
     };
 
     function handleLogOut(){
@@ -124,7 +122,7 @@ function ChatRoom({handleClose, handleLoginOpen, chatroomIsOpen, username}){
                         <div className="input-and-button">
                             <div className="message-form">
                                 <div className="message-input-container">
-                                    <input className="message-input" placeholder="write a message" onKeyDown={handleEnterSend} onChange={handleChangeMessage} ref={inputRef}/>
+                                    <input className="message-input" placeholder="write a message" onKeyDown={handleEnterSend} ref={inputRef}/>
                                 </div>
                                 <div className="send-btn-container">
                                     <button type="button" className="send-btn" onClick={handleClickSend} ref={sendButtonRef} disable="true"><FontAwesomeIcon icon={faCircleChevronRight} size="2xl" /></button>

@@ -11,7 +11,7 @@ const UsernameModal = ({handleUsername, usernameIsOpen, handleClose, handleChatr
         return  null;
     };
 
-    function handleClickOk(){
+    function handleClickOk(event){
         if(usernameRef.current.value){
             okButtonRef.current.disable = false;
             okButtonRef.current.disabled = false;
@@ -24,7 +24,7 @@ const UsernameModal = ({handleUsername, usernameIsOpen, handleClose, handleChatr
 
     function KeydownOkHandler(event){
         if(event.key === "Enter" && usernameRef.current.value){
-            handleClickOk();
+            handleClickOk(event);
         }else if(event.key === "Enter" && !usernameRef.current.value) {
             alert("Choose a username");
         };

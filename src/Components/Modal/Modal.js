@@ -1,6 +1,6 @@
 import React from "react";
 import PortalLogin from "../PortalLogin";
-import {getAuth, createUserWithEmailAndPassword, signInWithEmailAndPassword, onAuthStateChanged, GoogleAuthProvider, signInWithPopup} from "firebase/auth";
+import {getAuth, createUserWithEmailAndPassword, signInWithEmailAndPassword, GoogleAuthProvider, signInWithPopup} from "firebase/auth";
 import {initializeApp} from "firebase/app";
 import {getDatabase, push, ref, set} from 'firebase/database';
 import "./modalStyles.css";
@@ -19,9 +19,9 @@ const firebaseConfig = {
     databaseURL: "https://chat-app-4fca2-default-rtdb.firebaseio.com/"
   };
 
-const app = initializeApp(firebaseConfig);
+initializeApp(firebaseConfig);
 
-function Modal ({isOpen, handleClose, handleUsernameOpen, usernameIsOpen}){
+function Modal ({isOpen, handleClose, handleUsernameOpen}){
 
     const provider = new GoogleAuthProvider();
     const [email, setEmail] = useState("");
@@ -55,7 +55,6 @@ function Modal ({isOpen, handleClose, handleUsernameOpen, usernameIsOpen}){
                     userEmail: auth.currentUser.email,
                     }
                 );
-            const user = auth.currentUser;
         })
         .catch((error) => {
             const errorMessage = error.message;
@@ -70,12 +69,10 @@ function Modal ({isOpen, handleClose, handleUsernameOpen, usernameIsOpen}){
         signInWithEmailAndPassword(auth, email, password)
         .then(() => {
             //user signed in
-            const user = auth.currentUser;
             handleClose();
             handleUsernameOpen();
         })
         .catch((error)=>{
-            const errorCode = error.code;
             const errorMessage = error.message;
             alert(errorMessage);
         });
@@ -87,9 +84,6 @@ function Modal ({isOpen, handleClose, handleUsernameOpen, usernameIsOpen}){
     function handleClickGoogleSignUp(event){
         signInWithPopup(auth, provider)
         .then((result)=>{
-            //gives access to the google access token
-            const credential = GoogleAuthProvider.credentialFromResult(result);
-            const token = credential.accessToken;
             //signed in user info
             const user = result.user;
             set(ref(database, "users/"), {
@@ -99,22 +93,9 @@ function Modal ({isOpen, handleClose, handleUsernameOpen, usernameIsOpen}){
         })
         .catch((error)=>{
             const errorMessage = error.message;
-            //the email of the users account used
-            const email = error.customData.email;
-            const credential = GoogleAuthProvider.credentialFromError(error); 
             alert(errorMessage);
         });
     };
-
-    //state auth observer and get user data
-    onAuthStateChanged(auth, (user) =>{
-        if(user){
-            //user is signed in
-            const uid = user.uid;
-        }else{
-            //user is signed out
-        }
-    });
 
     function KeydownLoginHandler(event){
         if(event.key === "Enter"){
