@@ -24,6 +24,7 @@ initializeApp(firebaseConfig);
 function Modal ({isOpen, handleClose, handleUsernameOpen}){
 
     const provider = new GoogleAuthProvider();
+    const [username, setUsername] = useState("");
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
   
@@ -33,12 +34,19 @@ function Modal ({isOpen, handleClose, handleUsernameOpen}){
 
     function handleChangeEmail(event){
         const newEmail = event.target.value;
+        console.log(newEmail)
         setEmail(newEmail);
     };
 
     function handleChangePassword(event){
         const newPassword = event.target.value;
         setPassword(newPassword);
+    };
+
+    function handleChangeUsername(event){
+        const newUsername = event.target.value;
+        setUsername(newUsername);
+        console.log(newUsername)
     };
 
     //register new users with mail
@@ -50,9 +58,9 @@ function Modal ({isOpen, handleClose, handleUsernameOpen}){
         .then(() => {
             //user registered
                 push(ref(database, `users/`), {
-                    user: auth.currentUser.uid,
+                    user: username,
                     uid: auth.currentUser.uid,
-                    userEmail: auth.currentUser.email,
+                    userEmail: email,
                     }
                 );
         })
@@ -125,6 +133,9 @@ function Modal ({isOpen, handleClose, handleUsernameOpen}){
                                 <div className="register-container">
                                     <h2>Not registred yet?</h2>
                                     <form className="register-form">
+                                        <div className = "sign-up-username-container">
+                                            <input className="sign-up-username" type="text" placeholder="Username" onChange={handleChangeUsername}/>
+                                        </div>
                                         <div className="sign-up-email-container">
                                             <input className="sign-up-email" type="email" placeholder="Email" onChange={handleChangeEmail}/>
                                         </div>
