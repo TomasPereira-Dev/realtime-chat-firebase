@@ -1,4 +1,4 @@
-import React, {useCallback, useEffect, useLayoutEffect, useRef} from "react";
+import React, {useCallback, useEffect, useState, useLayoutEffect, useRef} from "react";
 import {initializeApp} from "firebase/app";
 import {getAuth, signOut} from "firebase/auth";
 import {getDatabase, push, ref, onChildAdded} from 'firebase/database';
@@ -22,19 +22,21 @@ initializeApp(firebaseConfig);
 const database = getDatabase();
 const auth = getAuth();
 
-function ChatRoom({handleClose, handleLoginOpen, chatroomIsOpen, username}){
-    let fetchedStuffRef = useRef([]); // save fetched messages to display them later using the map method
+function ChatRoom({handleClose, handleLoginOpen, chatroomIsOpen}){
+
+    console.log(auth.currentUser)
+    const [fetchedMessages, setFetchedMessages] = useState([]); // save fetched messages to display them later using the map method
     const inputRef = useRef("");
     const chatRef = useRef(null);
     const sendButtonRef = useRef(null);
+    const messagesRef = ref(database, "messages"); //firebase reference to the database directory
     
     const handleClickSend = useCallback(() => {
         //send messages to database
         if(inputRef.current.value){
             sendButtonRef.current.disable = "false";
             push(ref(database, "messages"),{
-                user: auth.currentUser.uid,
-                userName: username,
+                user: auth.currentUser.displayName,
                 message: inputRef.current.value,
             });
             inputRef.current.value = "";
@@ -47,25 +49,24 @@ function ChatRoom({handleClose, handleLoginOpen, chatroomIsOpen, username}){
         };
     };
 
+    
  
     useEffect(() => { //fetch messages from the database
-        const messagesRef = ref(database, "messages"); 
+        let messages = [];
         onChildAdded(messagesRef, (snapshot) => {
             //fetches messages
             let snapshotMessage = snapshot.val().message;
-            let snapshotUserName = snapshot.val().userName;
-            let snapshotUid = snapshot.val().user;
-
+            let username = auth.currentUser.displayName;
             let newMessage =  {
-                                message: snapshotUserName + ': ' + snapshotMessage,
-                                uidOfMessage: snapshotUid,
+                                message:  username + ': ' + snapshotMessage,
+                                username: auth.currentUser.displayName,
+                                uidOfMessage: auth.currentUser.uid,
                                 };
-
-            fetchedStuffRef.current = [...fetchedStuffRef.current, newMessage];
-        });
-    }, [fetchedStuffRef.current]);
-
-    console.log(fetchedStuffRef.current)
+            
+            messages = [...messages, newMessage]
+            setFetchedMessages(messages);
+            })
+    },[]);
 
     useLayoutEffect(() => {
         if(chatRef.current && chatRef.current !== null){
@@ -100,7 +101,7 @@ function ChatRoom({handleClose, handleLoginOpen, chatroomIsOpen, username}){
 
                 <div className="chat-container">
                     <div className="message-list">
-                        {auth.currentUser !== null ? (fetchedStuffRef.current.map((renderedMsg, index) => (
+                        {auth.currentUser !== null ? (fetchedMessages.map((renderedMsg, index) => (
                             renderedMsg.uidOfMessage !== auth.currentUser.uid ? (
                             <div className="msg their-msg" key={index}>
                                 <span>{ `${renderedMsg.message}`}</span>

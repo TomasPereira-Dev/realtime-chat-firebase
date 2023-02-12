@@ -1,8 +1,8 @@
 import React from "react";
 import PortalLogin from "../PortalLogin";
-import {getAuth, createUserWithEmailAndPassword, signInWithEmailAndPassword, GoogleAuthProvider, signInWithPopup} from "firebase/auth";
+import {getAuth, createUserWithEmailAndPassword, signInWithEmailAndPassword, GoogleAuthProvider, signInWithPopup, updateProfile} from "firebase/auth";
 import {initializeApp} from "firebase/app";
-import {getDatabase, push, ref, set} from 'firebase/database';
+import {getDatabase, ref, set} from 'firebase/database';
 import "./modalStyles.css";
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faGoogle } from '@fortawesome/free-brands-svg-icons'
@@ -21,7 +21,7 @@ const firebaseConfig = {
 
 initializeApp(firebaseConfig);
 
-function Modal ({isOpen, handleClose, handleUsernameOpen}){
+function Modal ({isOpen, handleClose, handleChatroomIsOpen}){
 
     const provider = new GoogleAuthProvider();
     const [username, setUsername] = useState("");
@@ -34,7 +34,6 @@ function Modal ({isOpen, handleClose, handleUsernameOpen}){
 
     function handleChangeEmail(event){
         const newEmail = event.target.value;
-        console.log(newEmail)
         setEmail(newEmail);
     };
 
@@ -46,28 +45,21 @@ function Modal ({isOpen, handleClose, handleUsernameOpen}){
     function handleChangeUsername(event){
         const newUsername = event.target.value;
         setUsername(newUsername);
-        console.log(newUsername)
     };
 
     //register new users with mail
     const auth = getAuth();
     const database = getDatabase();
 
+
     function handleClickSignUp(event){
         createUserWithEmailAndPassword(auth, email, password)
         .then(() => {
-            //user registered
-                push(ref(database, `users/`), {
-                    user: username,
-                    uid: auth.currentUser.uid,
-                    userEmail: email,
-                    }
-                );
-        })
-        .catch((error) => {
-            const errorMessage = error.message;
-            alert(errorMessage);
-        });
+                //user registered
+                updateProfile(auth.currentUser, {
+                displayName: username,
+                })
+            })
         setEmail("");
         setPassword("");
     };
@@ -78,7 +70,7 @@ function Modal ({isOpen, handleClose, handleUsernameOpen}){
         .then(() => {
             //user signed in
             handleClose();
-            handleUsernameOpen();
+            handleChatroomIsOpen();
         })
         .catch((error)=>{
             const errorMessage = error.message;
@@ -86,7 +78,7 @@ function Modal ({isOpen, handleClose, handleUsernameOpen}){
         });
         setEmail("");
         setPassword("");
-    };
+    }
 
     //sign in users with a google account
     function handleClickGoogleSignUp(event){
