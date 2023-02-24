@@ -3,7 +3,7 @@ import PortalLogin from "../PortalLogin";
 import {getAuth, createUserWithEmailAndPassword, signInWithEmailAndPassword, GoogleAuthProvider, signInWithPopup, updateProfile} from "firebase/auth";
 import {initializeApp} from "firebase/app";
 import {getDatabase, ref, set} from 'firebase/database';
-import "./modalStyles.css";
+import styles from "./modalStyles.module.css";
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faGoogle } from '@fortawesome/free-brands-svg-icons'
 import { useState } from "react";
@@ -112,59 +112,28 @@ function Modal ({isOpen, handleClose, handleChatroomIsOpen}){
 
     return(
         <PortalLogin wrapperId="portal-modal-container">
-            <div className="modal">
-                <div className="modal-content">
-                    <div className="modal-title-container">
-                        <div className="modal-title">
-                            <h1 className="modal-title-h1">Tomás Pereira's</h1>
-                            <h1 className="modal-title-h1">Chat App</h1>
+           <div className={styles.modalWrapper}>
+                <div className={styles.modal}>
+                    <div className={styles.title}>
+                        <h1>Tomás Pereira's Chat App</h1>
+                    </div>
+                    <div className={styles.loginRegisterContainer}>
+                        <div className={styles.registerContainer}>
+                            <h2>Not Registered Yet?</h2>
+                            <input className={styles.signUpUsername} type="text" placeholder="Username" onChange={handleChangeUsername}/>
+                            <input className={styles.signUpEmail} type="email" placeholder="Email" onChange={handleChangeEmail}/>
+                            <input className={styles.signUpPassword} type="password" placeholder="Password" onChange={handleChangePassword} onKeyDown={KeydownRegisterHandler}/>
+                            <button className={styles.modalBtn} type="button" onClick={handleClickSignUp}>Sign up</button>
                         </div>
-                        
-                        <div className="sign-up-methods-container">
-                            <div className="sign-up-methods">
-                                <div className="register-container">
-                                    <h2>Not registred yet?</h2>
-                                    <form className="register-form">
-                                        <div className = "sign-up-username-container">
-                                            <input className="sign-up-username" type="text" placeholder="Username" onChange={handleChangeUsername}/>
-                                        </div>
-                                        <div className="sign-up-email-container">
-                                            <input className="sign-up-email" type="email" placeholder="Email" onChange={handleChangeEmail}/>
-                                        </div>
-                                        <div className="sign-up-password-container">
-                                            <input className="sign-up-password" type="password" placeholder="Password" onChange={handleChangePassword} onKeyDown={KeydownRegisterHandler}/>
-                                        </div>
-                                        <div className="sign-up-btn-container">
-                                            <button className="modal-btn sign-up-btn" type="button" onClick={handleClickSignUp}>Sign up</button>
-                                        </div>
-                                    </form>
-                                </div>
-
-                                <div className="vertical-line"/>
-
-                                <div className="mail-auth-container">
-                                    <form className="mail-auth-form">
-                                        <h2>Log In</h2>
-                                        <div>
-                                            <input className="mail-password-container"  type="email" placeholder="Email" onChange={handleChangeEmail}/>
-                                        </div>
-                                        <div>
-                                            <input className="mail-password-container"  type="password" placeholder="Password" onChange={handleChangePassword} onKeyDown={KeydownLoginHandler}/>
-                                        </div>
-                                        <div>
-                                            <button className="modal-btn log-in-btn"  type="button" onClick={handleClickLogin}>Log In</button>
-                                        </div>
-                                    </form>
-                                </div>
-                            </div>
-                        </div>
-                        <div className="auth-container">
-                            <h3>or</h3>
-                            <button className="modal-btn auth-btn" onClick={handleClickGoogleSignUp}>Sign in with Google <FontAwesomeIcon icon={faGoogle}/></button>
+                        <div className={styles.loginContainer}>
+                            <h2>Log In</h2>
+                            <input className={styles.mailPasswordContainer}  type="email" placeholder="Email" onChange={handleChangeEmail}/>
+                            <input className={styles.mailPasswordContainer}  type="password" placeholder="Password" onChange={handleChangePassword} onKeyDown={KeydownLoginHandler}/>
+                            <button className={styles.modalBtn}  type="button" onClick={handleClickLogin}>Log In</button>
                         </div>
                     </div>
                 </div>
-            </div>
+           </div>
         </PortalLogin>
     );
 }

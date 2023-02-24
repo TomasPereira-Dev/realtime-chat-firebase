@@ -24,7 +24,6 @@ const auth = getAuth();
 
 function ChatRoom({handleClose, handleLoginOpen, chatroomIsOpen}){
 
-    console.log(auth.currentUser)
     const [fetchedMessages, setFetchedMessages] = useState([]); // save fetched messages to display them later using the map method
     const inputRef = useRef("");
     const chatRef = useRef(null);
@@ -38,6 +37,7 @@ function ChatRoom({handleClose, handleLoginOpen, chatroomIsOpen}){
             push(ref(database, "messages"),{
                 user: auth.currentUser.displayName,
                 message: inputRef.current.value,
+                uidOfMessage: auth.currentUser.uid,
             });
             inputRef.current.value = "";
         };
@@ -48,24 +48,21 @@ function ChatRoom({handleClose, handleLoginOpen, chatroomIsOpen}){
             handleClickSend();
         };
     };
-
+ 
     
  
     useEffect(() => { //fetch messages from the database
         let messages = [];
-        onChildAdded(messagesRef, (snapshot) => {
-            //fetches messages
-            let snapshotMessage = snapshot.val().message;
-            let username = auth.currentUser.displayName;
-            let newMessage =  {
-                                message:  username + ': ' + snapshotMessage,
-                                username: auth.currentUser.displayName,
-                                uidOfMessage: auth.currentUser.uid,
-                                };
-            
-            messages = [...messages, newMessage]
-            setFetchedMessages(messages);
-            })
+            onChildAdded(messagesRef, (snapshot) => {
+                //fetches messages
+                let snapshotMessage = snapshot.val().message;
+                let snapshotUser = snapshot.val().user;
+                let newMessage =  {
+                    message:  `${snapshotUser}: ${snapshotMessage}`,
+                    };
+                messages = [...messages, newMessage]
+                setFetchedMessages(messages);
+                })
     },[]);
 
     useLayoutEffect(() => {
@@ -120,16 +117,8 @@ function ChatRoom({handleClose, handleLoginOpen, chatroomIsOpen}){
                     </div>
 
                     <div className="input-button-container">
-                        <div className="input-and-button">
-                            <div className="message-form">
-                                <div className="message-input-container">
-                                    <input className="message-input" placeholder="write a message" onKeyDown={handleEnterSend} ref={inputRef}/>
-                                </div>
-                                <div className="send-btn-container">
-                                    <button type="button" className="send-btn" onClick={handleClickSend} ref={sendButtonRef} disable="true"><FontAwesomeIcon icon={faCircleChevronRight} size="2xl" /></button>
-                                </div>
-                            </div>
-                        </div>
+                            <input className="message-input" placeholder="write a message" onKeyDown={handleEnterSend} ref={inputRef}/>
+                            
                     </div>
                 </div>
             </div>

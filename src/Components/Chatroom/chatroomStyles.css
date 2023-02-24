@@ -1,28 +1,24 @@
-.chatroom-wrapper{
-    display: flex;
-    flex-direction: row;
-    align-items: center;
-    justify-content: center;
-    height: 100vh;
-    z-index: 997;
-}
 
 .chatroom-container{
     display: flex;
     flex-direction: column;
-    align-self: center;
-    justify-content: center;
+    width: fit-content;
+    margin: auto;
 }
 
 .message-list{
     display: flex;
     flex-direction: column;
+    gap: 4px;
     overflow-y: scroll;
+}
+
+.message-list::-webkit-scrollbar{
+  display: none;
 }
 
 .chat-container{
   display: flex;
-  position: relative;
   flex-direction: column;
   justify-content: flex-end;
   border-radius: 10px;
@@ -30,7 +26,6 @@
   width: 30vw;
   height: 70vh;
   background: rgba(0, 0, 0, 0.7);
-  z-index: 996;
   box-shadow: -10px -9px #e1341e;
 }
 
@@ -38,36 +33,31 @@
   display: flex;
 }
 
-.message-form{
-  display: flex;
-}
-
 .message-input{
-  width: 29vw;
-  padding:6px;
-  margin: 5px;
+  padding:8px;
   border: none;
-}
-
-.send-btn-container{
-  position: relative;
-  margin: 5px 0 0 -40px;
 }
 
 .send-btn{
   border: none;
   background: none;
-  color: #1ee196;
+  color: #80cee1;
+  position: relative;
+  top: 8px;
+  right: 40px;
+}
+
+.msg{
+  word-wrap: break-word;
+  border: 1px solid black;
+  border-radius: 10px;
+  padding: 8px;
 }
 
 .my-msg{
  align-self: flex-start;
- word-wrap: break-word;
- border: 1px solid black;
- border-radius: 10px;
  background-color: #ffffff;
- margin: 5px;
- padding: 5px;
+
 }
 
 .their-msg{
@@ -76,8 +66,7 @@
   border: 1px solid black;
   border-radius: 10px;
   background-color: white;
-  margin: 5px;
-  padding: 5px;
+
 }
 
 .sign-out-and-options-btn-container{
@@ -87,7 +76,7 @@
 }
 
 .sign-out-btn{
-  background-color: #6ae11e;
+  background-color: #80cee1;
   padding: 5px;
   border: none;
 }
