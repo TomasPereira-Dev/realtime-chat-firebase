@@ -1,20 +1,19 @@
 *{
-  margin: 0;
-  padding: 0;
-  box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    text-decoration: none;
 }
 
-input{
-  border: 1px solid black;
-  border-radius: 10px;
-  padding: 5px;
-  margin: 5px;
-  resize: none;
-  outline: none;
+html {
+    height: -webkit-fill-available;
 }
 
-body{
-  background-color: #80cee1;
+a{
+    color: black;
 }
 
-
+button{
+    background: none;
+    border-radius: 15px;
+}

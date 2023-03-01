@@ -1,0 +1,31 @@
+.registerWrapper{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    background-color: #41c7c6;
+    .registerContainer{
+        display: flex;
+        flex-direction: column;
+        justify-content: space-evenly;
+        height: 50vh;
+        text-align: center;
+        padding: 8px;
+        border: 1px solid black;
+        box-shadow: 10px 10px hsl(0, 5%, 15%);
+        gap: 8px;
+        background-color: #e2dccc;
+        & input{
+            width: 25vw;
+            padding: 8px;
+            border-top: none;
+            border-left: none;
+            border-right: none;
+            border-bottom: 1px solid black;
+            background: none;
+        }
+        & button{
+            padding: 4px;
+        }
+    }
+}
