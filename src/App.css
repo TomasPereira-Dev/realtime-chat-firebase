@@ -1,19 +1,19 @@
 *{
-  margin: 0;
-  padding: 0;
-  box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    text-decoration: none;
 }
 
-input{
-  border: 1px solid black;
-  border-radius: 10px;
-  padding: 8px;
-  margin: 8px;
-  outline: none;
+html {
+    height: -webkit-fill-available;
 }
 
-body{
-  background-color: whitesmoke;
+a{
+    color: black;
 }
 
-
+button{
+    background: none;
+    border-radius: 15px;
+}

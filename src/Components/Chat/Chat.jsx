@@ -1,11 +1,8 @@
-import React, {useCallback, useEffect, useState, useLayoutEffect, useRef} from "react";
+import chatStyles from "./chat.module.css";
+import {useEffect, useState, useLayoutEffect, useRef} from "react";
 import {initializeApp} from "firebase/app";
 import {getAuth, signOut} from "firebase/auth";
 import {getDatabase, push, ref, onChildAdded} from 'firebase/database';
-import "./chatroomStyles.css";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faPersonWalkingArrowRight } from "@fortawesome/free-solid-svg-icons";
-import { faCircleChevronRight } from "@fortawesome/free-solid-svg-icons";
 
 const firebaseConfig = {
     apiKey: "AIzaSyA994Q-JUU7EYwvHBw4pGVNXAbJcK1slHk",
@@ -22,15 +19,15 @@ initializeApp(firebaseConfig);
 const database = getDatabase();
 const auth = getAuth();
 
-function ChatRoom({handleClose, handleLoginOpen, chatroomIsOpen}){
+const Chat = ({handleClose, handleLoginOpen, chatroomIsOpen}) =>{
 
     const [fetchedMessages, setFetchedMessages] = useState([]); // save fetched messages to display them later using the map method
     const inputRef = useRef("");
     const chatRef = useRef(null);
     const sendButtonRef = useRef(null);
-    const messagesRef = ref(database, "messages"); //firebase reference to the database directory
     
-    const handleClickSend = useCallback(() => {
+
+    const handleClickSend = () => {
         //send messages to database
         if(inputRef.current.value){
             sendButtonRef.current.disable = "false";
@@ -41,18 +38,17 @@ function ChatRoom({handleClose, handleLoginOpen, chatroomIsOpen}){
             });
             inputRef.current.value = "";
         };
-    })
-    
+    };
+
     function handleEnterSend(event){
         if(event.key === "Enter" && inputRef.current.value){
             handleClickSend();
         };
     };
- 
-    
- 
+
     useEffect(() => { //fetch messages from the database
         let messages = [];
+            const messagesRef = ref(database, "messages"); //firebase reference to the database directory
             onChildAdded(messagesRef, (snapshot) => {
                 //fetches messages
                 let snapshotMessage = snapshot.val().message;
@@ -63,18 +59,19 @@ function ChatRoom({handleClose, handleLoginOpen, chatroomIsOpen}){
                 messages = [...messages, newMessage]
                 setFetchedMessages(messages);
                 })
-    },[]);
+    }, []);
 
     useLayoutEffect(() => {
         if(chatRef.current && chatRef.current !== null){
             chatRef.current.scrollIntoView({behavior:"smooth"});
         };
-    }, [handleClickSend]);
+    }, []);
 
     if(!chatroomIsOpen){
         return null;
     };
 
+    
     function handleLogOut(){
         signOut(auth).then(()=> {
             handleClose();
@@ -86,45 +83,42 @@ function ChatRoom({handleClose, handleLoginOpen, chatroomIsOpen}){
         })
     };
 
-    return(
-        <>
-        <div className="chatroom-wrapper">
-            <div className="chatroom-container">
-                <div className="sign-out-and-options-btn-container"> 
-                    <div className="sign-out-btn-container">
-                        <button type="button" className="sign-out-btn" onClick={handleLogOut}>Sign out <FontAwesomeIcon icon={faPersonWalkingArrowRight}/></button>
-                    </div>
-                </div>
 
-                <div className="chat-container">
-                    <div className="message-list">
+
+    return(
+        <div className={chatStyles.chatWrapper}>
+            <div className={chatStyles.chatContainer}>
+                <div className={chatStyles.signOutButtonContainer}>
+                    <button onClick={handleLogOut}>sign out</button>
+                </div>
+                <div className={chatStyles.messageContainer}>
+                    <div className={chatStyles.messageList}>
                         {auth.currentUser !== null ? (fetchedMessages.map((renderedMsg, index) => (
                             renderedMsg.uidOfMessage !== auth.currentUser.uid ? (
-                            <div className="msg their-msg" key={index}>
+                            <div className={chatStyles.myMsg} key={index}>
                                 <span>{ `${renderedMsg.message}`}</span>
                             </div>
                             ) : (
-                            <div className="msg my-msg" key={index}>
+                            <div className={chatStyles.theirMsg} key={index}>
                                 <span>{`${renderedMsg.message}`}</span>
                             </div> 
                             )
-                        ))
-                        ) : (
+                            ))
+                            ) : (
                             console.log("please log in")
-                        )   
-                    };
-                        <div className="auto-scroll" ref={chatRef}/>
+                            )   
+                        }
+                        <div ref={chatRef}/>
                     </div>
 
-                    <div className="input-button-container">
-                            <input className="message-input" placeholder="write a message" onKeyDown={handleEnterSend} ref={inputRef}/>
-                            
+                    <div className={chatStyles.chatInputAndButtonContainer}>
+                        <input type="text" onKeyDown={handleEnterSend} ref={inputRef}/>
+                        <button type="button" onClick={handleClickSend} disable="true" ref={sendButtonRef}>Send</button>
                     </div>
                 </div>
             </div>
         </div>
-        </>
-    );
-};
+    )
+}
 
-export default ChatRoom;
+export default Chat;

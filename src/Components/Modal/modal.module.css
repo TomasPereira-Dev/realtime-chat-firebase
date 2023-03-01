@@ -20,6 +20,7 @@ button{
     width: fit-content;
     height: 30vw;
     border: 1px solid black;
+    box-shadow: 10px 10px hsl(0, 5%, 15%);
     overflow: hidden;
     .imageAndLogoContainer{
         padding: 16px;
