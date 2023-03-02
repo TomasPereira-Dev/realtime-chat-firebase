@@ -1,49 +1,56 @@
-button{
-    padding: 8px;
-    border-radius: 8px;
-    border: none;
-    background-color: #eab926;
-    color: black
-}
-
 .modalWrapper{
     display: flex;
     justify-content: center;
     align-items: center;
-    min-height: 100vh;
-    background-color: #e2dccc;
+    height: 100vh;
+    background-color: #3db549;
 }
 
 .modalContainer{
-    display: flex;
-    justify-content: center;
-    width: fit-content;
-    height: 30vw;
+    display: grid;
+    grid-template-columns: 1fr 1.5fr;
+    gap: 1em;
     border: 1px solid black;
     box-shadow: 10px 10px hsl(0, 5%, 15%);
-    overflow: hidden;
     .imageAndLogoContainer{
+        display: flex;
+        align-items: flex-end;
         padding: 16px;
-        background-color: #8E8774;
-
+        background-color: #179544;
+        font-family: "BIZ UDPGothic", sans-serif;
+        overflow: hidden;
+        .logoContainer{
+            font-weight: 400;
+            font-size: 2.5rem; 
+            & H1{
+                transform: rotate(90deg) translateY(1.5em) translateX(-1em);
+                color: #fbfef7;
+            }
+        }
     }
     .loginContainer{
         display: flex;
         flex-direction: column;
         padding: 16px;
-        gap: 8px;
+        gap: 0.5em;
+        overflow: hidden;
         & input{
-            width: 25vw;
-            border-top: none;
-            border-left: none;
-            border-right: none;
-            border-bottom: 1px solid black;
-            background-color: #e2dccc;
+            border: none;
+            border-radius: 15px;
+            background-color: #fbfef7;
             margin: 16px 0 16px 0;
+            padding: 8px;
         }
         .ButtonAndRegisterLinkContainer{
             display: flex;
             justify-content: space-between;
+        }
+        & button{
+            padding: 8px;
+            border-radius: 16px;
+            border: none;
+            border-bottom: 4px solid hsl(0, 5%, 15%);
+            background-color: #fefebb;
         }
     }
 }

@@ -64,10 +64,7 @@ const Modal = ({isOpen, handleClose, handleChatroomIsOpen, handleRegisterOpen}) 
             <div className={modalStyles.modalContainer}>
                 <div className={modalStyles.imageAndLogoContainer}>
                     <div className={modalStyles.logoContainer}>
-                        <h1>Tomás Pereira</h1>
-                    </div>
-                    <div className={modalStyles.imageContainer}>
-
+                        <h1>CHAT</h1>
                     </div>
                 </div>
                 <div className={modalStyles.loginContainer}>

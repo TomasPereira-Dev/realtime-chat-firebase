@@ -1,14 +1,20 @@
 .chatWrapper{
     display: flex;
     flex-direction: column;
-    border: 1px solid black;
-    height: 100vh;
     align-items: center;
     justify-content: center;
-    background-color: #e66e27;
+    height: 100vh;
+    background-color: #7ce267;
+    font-family: "roboto", sans-serif;
     .signOutButtonContainer{
         display: flex;
         justify-content: flex-end;
+        & button{
+            padding: 8px;
+            border: none;
+            border-radius: 16px;
+            background-color: #8e8774;
+        }
     }
     .messageContainer{
         display: flex;
@@ -17,21 +23,48 @@
         padding: 8px;
         height: 50vh;
         border-radius: 5px;
-        background-color: #e2dccc8e;
-        overflow-y: scroll;
-        & input{
-            padding: 8px;
-            border: none;
-            border-radius: 15px;
+        background-color: #fefebbcb;
+        .messageList{
+            display: block;
+            overflow-y: scroll;
+            .messageList::-webkit-scrollbar{
+                display: none;
+            }
+            .myMsg{
+                padding: 8px;
+                margin: 4px;
+                width: fit-content;
+                background-color: #fbfef7a6;
+                border-radius: 15px;
+                font-size: 0.8em;
+            }
+            .theirMsg{
+                display: flex;
+                justify-content: flex-end;
+                & span{
+                    padding: 8px;
+                    margin: 4px;
+                    background-color: #3bbD9f;
+                    width: fit-content;
+                    border-radius: 15px;
+                    font-size: 0.8em;
+                }
+            }
+    
         }
-        .myMsg{
-            padding: 8px;
-            margin: 4px;
-            width: fit-content;
-            background-color: whitesmoke;
-            border-radius: 15px;
+        .chatInputAndButtonContainer{
+            & input{
+                padding: 8px;
+                border: none;
+                border-radius: 15px;
+            }
+            & button{
+                padding: 8px;
+                border: none;
+                border-radius: 16px;
+                background-color: #b1e0af;
+            }
         }
-
     }   
 }
 
