@@ -53,8 +53,10 @@ const Chat = ({handleClose, handleLoginOpen, chatroomIsOpen}) =>{
                 //fetches messages
                 let snapshotMessage = snapshot.val().message;
                 let snapshotUser = snapshot.val().user;
+                let snapshotUid = snapshot.val().uidOfMessage;
                 let newMessage =  {
                     message:  `${snapshotUser}: ${snapshotMessage}`,
+                    uidOfMessage: snapshotUid
                     };
                 messages = [...messages, newMessage]
                 setFetchedMessages(messages);
@@ -95,26 +97,27 @@ const Chat = ({handleClose, handleLoginOpen, chatroomIsOpen}) =>{
                     <div className={chatStyles.messageList}>
                         {auth.currentUser !== null ? (fetchedMessages.map((renderedMsg, index) => (
                             renderedMsg.uidOfMessage !== auth.currentUser.uid ? (
-                            <div className={chatStyles.myMsg} key={index}>
+                            <div className={chatStyles.theirMsg} key={index}>
                                 <span>{ `${renderedMsg.message}`}</span>
                             </div>
                             ) : (
-                            <div className={chatStyles.theirMsg} key={index}>
+                            <div className={chatStyles.myMsg} key={index}>
                                 <span>{`${renderedMsg.message}`}</span>
                             </div> 
                             )
                             ))
                             ) : (
                             console.log("please log in")
-                            )   
+                            )  
                         }
                         <div ref={chatRef}/>
                     </div>
-
                     <div className={chatStyles.chatInputAndButtonContainer}>
                         <input type="text" onKeyDown={handleEnterSend} ref={inputRef}/>
-                        <button type="button" onClick={handleClickSend} disable="true" ref={sendButtonRef}>Send</button>
-                    </div>
+                        <div className={chatStyles.chatButtonSendContainer}>
+                            <button type="button" onClick={handleClickSend} disable="true" ref={sendButtonRef}>Send</button>
+                        </div>
+                     </div>
                 </div>
             </div>
         </div>
