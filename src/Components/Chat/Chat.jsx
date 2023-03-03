@@ -114,7 +114,9 @@ const Chat = ({handleClose, handleLoginOpen, chatroomIsOpen}) =>{
                     </div>
                     <div className={chatStyles.chatInputAndButtonContainer}>
                         <input type="text" onKeyDown={handleEnterSend} ref={inputRef}/>
-                        <button type="button" onClick={handleClickSend} disable="true" ref={sendButtonRef}>Send</button>
+                        <div className={chatStyles.chatButtonSendContainer}>
+                            <button type="button" onClick={handleClickSend} disable="true" ref={sendButtonRef}>Send</button>
+                        </div>
                      </div>
                 </div>
             </div>

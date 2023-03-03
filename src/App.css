@@ -5,8 +5,8 @@
     text-decoration: none;
 }
 
-html {
-    height: -webkit-fill-available;
+input, button{
+    font-family: "roboto", sans-serif;
 }
 
 a{

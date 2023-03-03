@@ -53,10 +53,17 @@
     
         }
         .chatInputAndButtonContainer{
+            display: flex;
+            flex-direction: row-reverse;
+            position: relative;
+            .chatButtonSendContainer{
+                position: absolute;
+            }
             & input{
                 padding: 8px;
                 border: none;
                 border-radius: 15px;
+                width: 100%;
             }
             & button{
                 padding: 8px;
@@ -68,3 +75,11 @@
     }   
 }
 
+@media(max-width: 480px){
+    .chatContainer{
+       .messageContainer{
+        height: 80vh;
+        width: 90vw;
+       }
+    }
+}
